@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task Title"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTaskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task Description"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Assigned User"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextAssignedUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Spinner
+        android:id="@+id/spinnerStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/task_status_options" />
+
+    <Button
+        android:id="@+id/buttonUpdateTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Task" />
+
+</LinearLayout>

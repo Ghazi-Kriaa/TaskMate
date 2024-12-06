@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">TaskMate</string>
+    <string name="login">Login</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="Login">Login</string>
+    <string name="register">register</string>
+    <string name="Register">Register</string>
+    <string name="clic_to_login">Clic to login</string>
+    <string name="clic_to_register">Clic to register</string>
+    <string name="logout">logOut</string>
+        <!-- Options pour le statut des tâches -->
+        <string-array name="task_status_options">
+            <item>On Progress</item>
+            <item>Completed</item>
+            <item>To Do</item>
+        </string-array>
+</resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:spacing="8dp">
+
+        <!-- Champ pour le titre du projet -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Project Title"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Champ pour la description du projet -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Project Description"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Spinner pour ajouter les membres associés au projet -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add Members"
+            android:layout_marginBottom="8dp">
+            <Button
+                android:id="@+id/buttonSelectUsers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Users"
+                android:layout_marginTop="16dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Bouton pour soumettre les détails du projet -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSubmitProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Add Project"
+            android:theme="?attr/materialButtonOutlinedStyle" />
+
+    </LinearLayout>
+</ScrollView>

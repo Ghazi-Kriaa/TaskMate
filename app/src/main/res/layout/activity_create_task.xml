@@ -1,0 +1,57 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task Title"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTaskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task Description"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTaskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="3"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <TextView
+        android:id="@+id/textViewTaskStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Status: To Do"
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/buttonAssignUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Assign User" />
+
+    <Button
+        android:id="@+id/buttonCreateTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Task" />
+</LinearLayout>
