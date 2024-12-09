@@ -47,7 +47,7 @@
         android:id="@+id/buttonAssignUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Assign User" />
+        android:text="Assign Collaborator" />
 
     <Button
         android:id="@+id/buttonCreateTask"

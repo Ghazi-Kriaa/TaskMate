@@ -52,6 +52,7 @@
         android:id="@+id/spinnerStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:entries="@array/task_status_options" />
 
     <Button

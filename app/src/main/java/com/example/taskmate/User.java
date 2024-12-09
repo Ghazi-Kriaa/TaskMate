@@ -13,6 +13,11 @@ public class User {
         this.email = email;
         this.createdAt = createdAt;
     }
+    public User(String id,String name,  String email) {
+        this.name = name;
+        this.id = id;
+        this.email = email;
+    }
 
     // Nouveau constructeur avec 2 arguments
     public User(String name, String id) {

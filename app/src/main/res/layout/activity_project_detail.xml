@@ -5,16 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Toolbar en haut -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="Project Details"
-        app:titleTextColor="@android:color/white" />
 
     <!-- Contenu principal -->
     <ScrollView
@@ -25,8 +15,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
-
+            android:padding="16dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Project Details"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:layout_marginBottom="15dp"/>
             <!-- CardView pour afficher les détails du projet -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -46,41 +44,37 @@
                         android:id="@+id/projectDetailTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Title:"
+                        android:text="Project Title:"
                         android:textStyle="bold"
-                        android:textSize="18sp" />
+                        android:textSize="20sp"/>
 
                     <TextView
                         android:id="@+id/projectDetailDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Description:"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/projectDetailCreatedAt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Created At:"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/projectDetailOwnerId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Owner:"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/projectDetailMembers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Members:"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

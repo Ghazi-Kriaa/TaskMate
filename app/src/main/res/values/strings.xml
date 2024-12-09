@@ -9,10 +9,10 @@
     <string name="clic_to_login">Clic to login</string>
     <string name="clic_to_register">Clic to register</string>
     <string name="logout">logOut</string>
-        <!-- Options pour le statut des tâches -->
-        <string-array name="task_status_options">
-            <item>On Progress</item>
-            <item>Completed</item>
-            <item>To Do</item>
-        </string-array>
+    <!-- Options pour le statut des tâches -->
+    <string-array name="task_status_options">
+        <item>On Progress</item>
+        <item>Completed</item>
+        <item>To Do</item>
+    </string-array>
 </resources>

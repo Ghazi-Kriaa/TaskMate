@@ -6,15 +6,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="Task Details"
-        app:titleTextColor="@android:color/white" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,8 +15,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center"
             android:padding="16dp">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task Details"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:layout_marginBottom="15dp"/>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,14 +44,14 @@
                         android:layout_height="wrap_content"
                         android:text="Task Title:"
                         android:textStyle="bold"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/taskDescriptionTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Task Description:"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:layout_marginTop="8dp"/>
 
                     <TextView
@@ -60,7 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Assigned User:"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:layout_marginTop="8dp"/>
 
                     <TextView
@@ -68,7 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Status:"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:layout_marginTop="8dp"/>
 
                     <LinearLayout

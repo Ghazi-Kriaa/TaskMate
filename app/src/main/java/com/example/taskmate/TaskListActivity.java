@@ -3,6 +3,8 @@ package com.example.taskmate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -83,7 +86,54 @@ public class TaskListActivity extends AppCompatActivity {
                     Toast.makeText(this, "Error fetching tasks", Toast.LENGTH_SHORT).show();
                 });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_task_list, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        String projectId = getIntent().getStringExtra("PROJECT_ID");
+         if (itemId == R.id.action_add_tasks) {
+            // Récupérer l'ID de l'utilisateur connecté
+            String currentUserId = FirebaseAuth.getInstance().getUid();
 
+            // Récupérer le document du projet
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("projects").document(projectId)
+                    .get()
+                    .addOnSuccessListener(projectDocument -> {
+                        if (projectDocument.exists()) {
+                            // Récupérer l'ID du propriétaire du projet
+                            String ownerId = projectDocument.getString("ownerId");
+
+                            // Vérifier si l'utilisateur connecté est le propriétaire du projet
+                            if (currentUserId != null && currentUserId.equals(ownerId)) {
+                                // Si l'utilisateur est le propriétaire, autoriser la création de la tâche
+                                Intent intent = new Intent(TaskListActivity.this, CreateTaskActivity.class);
+                                intent.putExtra("PROJECT_ID", projectId);
+                                startActivity(intent);
+                            } else {
+                                // Si l'utilisateur n'est pas le propriétaire, afficher un message
+                                Toast.makeText(TaskListActivity.this, "You do not have permission to create a task", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(TaskListActivity.this, "Project not found", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(TaskListActivity.this, "Error retrieving project details", Toast.LENGTH_SHORT).show();
+                    });
+
+            return true;
+        } else if (itemId == R.id.action_view_Projects) {
+            Intent intent = new Intent(TaskListActivity.this, ProjectListActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     /**
      * Rafraîchir les tâches chaque fois que l'activité est reprise.
      */

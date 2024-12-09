@@ -10,18 +10,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.android.material.textfield.TextInputEditText;
 
 public class register extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword, editTextName;
     Button buttonReg;
     FirebaseAuth mAuth;
-    FirebaseFirestore db;
     ProgressBar progressBar;
     TextView textView;
 
@@ -30,11 +29,10 @@ public class register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Initialisation de FirebaseAuth et Firestore
+        // Initialisation de FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
-        // Récupération des éléments de l'interface utilisateur
+        // Initialisation des vues
         textView = findViewById(R.id.btn_login);
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
@@ -52,6 +50,7 @@ public class register extends AppCompatActivity {
         // Gestion du bouton d'inscription
         buttonReg.setOnClickListener(view -> {
             progressBar.setVisibility(View.VISIBLE);
+
             String email = String.valueOf(editTextEmail.getText()).trim();
             String password = String.valueOf(editTextPassword.getText()).trim();
             String name = String.valueOf(editTextName.getText()).trim();
@@ -67,24 +66,42 @@ public class register extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 return;
             }
+            if (!email.endsWith("@gmail.com")) {
+                Toast.makeText(register.this, "Please use a valid Gmail address", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                return;
+            }
             if (TextUtils.isEmpty(password) || password.length() < 6) {
                 Toast.makeText(register.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 return;
             }
 
-            // Création d'un utilisateur avec Firebase Auth
+            // Création de l'utilisateur
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         progressBar.setVisibility(View.GONE);
 
                         if (task.isSuccessful()) {
-                            // L'utilisateur est créé avec succès
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                // Mise à jour du profil de l'utilisateur (nom)
+                                // Envoi d'un e-mail de vérification
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(emailTask -> {
+                                            if (emailTask.isSuccessful()) {
+                                                Toast.makeText(register.this,
+                                                        "Verification email sent. Please check your inbox.",
+                                                        Toast.LENGTH_LONG).show();
+                                            } else {
+                                                Toast.makeText(register.this,
+                                                        "Failed to send verification email.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                // Mise à jour du profil avec le nom
                                 user.updateProfile(new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(name) // Mise à jour du nom
+                                                .setDisplayName(name)
                                                 .build())
                                         .addOnCompleteListener(profileTask -> {
                                             if (profileTask.isSuccessful()) {
@@ -92,37 +109,16 @@ public class register extends AppCompatActivity {
                                             }
                                         });
 
-                                // Récupération de l'UID
-                                String uid = user.getUid();
-
-                                // Création de l'objet utilisateur pour Firestore
-                                User newUser = new User(name, uid, email, System.currentTimeMillis()); // Assurez-vous que name est bien défini ici
-
-                                // Enregistrement dans Firestore
-                                db.collection("users")
-                                        .document(uid)
-                                        .set(newUser)
-                                        .addOnSuccessListener(aVoid -> {
-                                            // Succès
-                                            Toast.makeText(register.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getApplicationContext(), login.class);
-                                            startActivity(intent);
-                                            finish();
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            // Échec
-                                            Toast.makeText(register.this, "Failed to save user in Firestore", Toast.LENGTH_SHORT).show();
-                                            Log.e("Firestore", "Error adding user", e);
-                                        });
+                                // Redirection vers la page de connexion
+                                Toast.makeText(register.this, "Account created successfully. Verify your email to log in.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), login.class);
+                                startActivity(intent);
+                                finish();
                             }
                         } else {
-                            // Échec de l'authentification
                             Toast.makeText(register.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-
         });
     }
-
-    // Classe interne représentant l'utilisateur pour Firestore
 }

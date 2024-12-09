@@ -15,7 +15,13 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="16dp">
-
+        <ImageView
+            android:id="@+id/loginImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/register"
+            android:scaleType="centerCrop" />
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"

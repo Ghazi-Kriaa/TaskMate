@@ -30,6 +30,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    // Ajout du bloc packagingOptions pour résoudre les conflits de fichiers
+    packagingOptions {
+        exclude("**/META-INF/LICENSE")
+        exclude("**/META-INF/LICENSE.txt")
+        exclude("**/META-INF/NOTICE")
+        exclude("**/META-INF/NOTICE.txt")
+        exclude("**/META-INF/DEPENDENCIES")
+        exclude("**/META-INF/DEPENDENCIES.txt")
+        exclude("**/META-INF/NOTICE.md")
+        exclude("**/META-INF/LICENSE.md")
+    }
 }
 
 dependencies {
@@ -44,6 +55,9 @@ dependencies {
     implementation ("com.google.firebase:firebase-auth:23.1.0")
     implementation ("com.google.firebase:firebase-firestore:24.8.2")
     implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.sendgrid:sendgrid-java:4.7.0")
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

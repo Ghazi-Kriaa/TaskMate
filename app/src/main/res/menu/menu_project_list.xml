@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Bouton Ajouter un projet -->
+    <item
+        android:id="@+id/action_add_project"
+        android:title="Add Project"
+        app:showAsAction="always"/>
     <!-- Bouton Logout -->
     <item
         android:id="@+id/action_logout"
@@ -8,10 +13,5 @@
         android:icon="@drawable/logout"
         app:showAsAction="always"/>
 
-    <!-- Bouton Ajouter un projet -->
-    <item
-        android:id="@+id/action_add_project"
-        android:title="Add Project"
-        android:icon="@drawable/add"
-        app:showAsAction="always"/>
+
 </menu>

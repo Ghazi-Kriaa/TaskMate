@@ -6,18 +6,24 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.DocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class AddProjectActivity extends AppCompatActivity {
 
@@ -29,6 +35,7 @@ public class AddProjectActivity extends AppCompatActivity {
 
     // Liste pour stocker uniquement les ids des utilisateurs sélectionnés
     private List<String> selectedUserIds = new ArrayList<>();
+    private List<String> selectedUserEmails = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +74,12 @@ public class AddProjectActivity extends AppCompatActivity {
                             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                                 String userId = document.getString("id");
                                 String userName = document.getString("name");
+                                String userEmail = document.getString("email");
 
                                 // Exclure l'utilisateur connecté
                                 if (userId != null && !userId.equals(currentUserId)) {
                                     usersList.add(new User(userId, userName));
+                                    selectedUserEmails.add(userEmail);
                                 }
                             }
                         }
@@ -137,49 +146,73 @@ public class AddProjectActivity extends AppCompatActivity {
                 });
     }
 
-
-
     private void addProject() {
         String projectTitle = editTextTitle.getText().toString().trim();
         String projectDescription = editTextDescription.getText().toString().trim();
-
 
         if (projectTitle.isEmpty() || projectDescription.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
-        // Vérification que des utilisateurs ont été sélectionnés
         if (selectedUserIds.isEmpty()) {
             Toast.makeText(this, "Please select at least one user", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Générer un ID unique pour le projet
         String projectId = db.collection("projects").document().getId();
+        Project project = new Project(projectId, projectTitle, projectDescription, currentUserId, selectedUserIds, Timestamp.now());
 
-        // Créer un objet Project avec les IDs des membres sélectionnés
-        Project project = new Project(
-                projectId,
-                projectTitle,
-                projectDescription,
-                currentUserId,
-                selectedUserIds,  // Seuls les IDs des utilisateurs
-                Timestamp.now()
-        );
-
-        // Ajouter le projet à Firestore
         db.collection("projects").document(projectId).set(project)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Project updated successfully", Toast.LENGTH_SHORT).show();
-
-                    // Passer l'ID du projet à la ProjectDetailActivity
+                    Toast.makeText(this, "Project created successfully", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(AddProjectActivity.this, ProjectDetailActivity.class);
                     intent.putExtra("projectId", projectId); // Passez l'ID du projet
                     startActivity(intent); // Démarrer la nouvelle activité
+                    sendEmailsToUsers(projectTitle, projectDescription);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Failed to update project: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e("UpdateProjectActivity", "Error updating project", e);
+                    Toast.makeText(this, "Failed to create project: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("AddProjectActivity", "Error creating project", e);
                 });
+    }
+
+    private void sendEmailsToUsers(String projectTitle, String projectDescription) {
+        new Thread(() -> {
+            try {
+                final String senderEmail = "bonsoincentre.info@gmail.com"; // Replace with your email
+                final String senderAppPassword = "ijfblvadxezpluiz";
+                Properties props = new Properties();
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.port", "587");
+
+                Session session = Session.getInstance(props, new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(senderEmail, senderAppPassword);
+                    }
+                });
+
+                for (String recipient : selectedUserEmails) {
+                    Message message = new MimeMessage(session);
+                    message.setFrom(new InternetAddress(senderEmail));
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+                    message.setSubject("You have been added to a new project");
+                    message.setText("Bonjour ,\n\n" +
+                            "You have been added to a new project:\n" +
+                            "Title: " + projectTitle + "\n" +
+                            "Description: " + projectDescription + "\n\n" +
+                            "Best regards,\nTaskMate Team");
+
+                    Transport.send(message);
+                }
+
+                runOnUiThread(() -> Toast.makeText(this, "Emails sent successfully", Toast.LENGTH_SHORT).show());
+            } catch (MessagingException e) {
+                Log.e("EmailError", "Failed to send emails", e);
+                runOnUiThread(() -> Toast.makeText(this, "Failed to send emails", Toast.LENGTH_SHORT).show());
+            }
+        }).start();
     }
 }
