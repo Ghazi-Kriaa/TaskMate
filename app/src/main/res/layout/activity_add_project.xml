@@ -2,13 +2,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/grid">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:spacing="8dp">
+        android:spacing="8dp"
+        >
 
         <!-- Champ pour le titre du projet -->
         <com.google.android.material.textfield.TextInputLayout
@@ -46,7 +48,7 @@
             android:layout_marginBottom="8dp">
             <Button
                 android:id="@+id/buttonSelectUsers"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Select Teams"
                 android:layout_marginTop="16dp"/>

@@ -12,6 +12,4 @@
         android:title="Logout"
         android:icon="@drawable/logout"
         app:showAsAction="always"/>
-
-
 </menu>

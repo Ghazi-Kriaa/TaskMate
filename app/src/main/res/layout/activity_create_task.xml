@@ -1,3 +1,9 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/grid">
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -47,11 +53,14 @@
         android:id="@+id/buttonAssignUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Assign Collaborator" />
+        android:text="Assign Collaborator"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/buttonCreateTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Task" />
+        android:text="Create Task"
+        android:layout_marginTop="16dp"/>
 </LinearLayout>
+</ScrollView>
